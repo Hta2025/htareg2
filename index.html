@@ -825,6 +825,20 @@
              return true;
         }
 
+        // === بداية إضافة التوقيت ===
+        // دالة لتنسيق التاريخ والوقت
+        function getFormattedDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // الشهور تبدأ من 0
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+        // === نهاية إضافة التوقيت ===
+
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -834,8 +848,14 @@
 
             const form = e.target;
             const data = new FormData(form);
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzo7yp-5tMCXf-WFbfJjh3gnNHLXnO-2sDAGQF8ZVysn4sKUUTTVotZvK81SSJ6dkcp/exec';
+            // تم تحديث الرابط هنا بالرابط الجديد الذي قدمته
+            const scriptURL = "https://script.google.com/macros/s/AKfycbzuQpnrF36Z_5bxdtSnJ3RKhv8UYETqa9EEB7kbU8qB8QMYq_Pau4gG-edm1EvqrG0y/exec";
             const submitButton = form.querySelector('button[type="submit"]');
+
+            // === بداية إضافة التوقيت ===
+            // إضافة تاريخ ووقت التسجيل إلى البيانات المرسلة
+            data.set('تاريخ و وقت التسجيل', getFormattedDateTime());
+            // === نهاية إضافة التوقيت ===
 
             const countryCode = document.getElementById('country-code-value').value;
             let phoneNumber = document.getElementById('phone-number').value.trim();
