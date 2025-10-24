@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التسجيل في دورة - أكاديمية أبقراط للتدريب</title>
+    <title>صفحة تسجيل الفعاليات التدريبية لاكاديمية ابقراط للتدريب</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
@@ -67,7 +67,7 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
-        .country-list li:hover {
+        .country-list li:hover, .country-list li[aria-selected="true"] {
             background-color: #f8f9fa;
         }
         .country-list li.selected {
@@ -91,11 +91,15 @@
              margin-left: 5px;
              margin-right: 0;
         }
+        /* Custom Navbar Style */
+        .navbar-custom-bg {
+            background-color: #6a0dad; /* Deep purple from the logo */
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-bg">
         <div class="container">
             <a class="navbar-brand" href="index.html">Hippocrates Training Academy</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -117,18 +121,17 @@
                     <div class="card-body p-4 p-md-5">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div>
-                                <h2 class="card-title h3 brand-green fw-bold">أكاديمية أبقراط للتدريب</h2>
-                                <p class="text-muted" id="course-details-display">
-                                    يرجى اختيار دورة من القائمة أدناه للبدء.
-                                </p>
+                                <h1 class="card-title h2 brand-green fw-bold">صفحة تسجيل الفعاليات التدريبية لاكاديمية ابقراط للتدريب</h1>
+                                <!-- The placeholder text has been removed as requested -->
+                                <p class="text-muted" id="course-details-display"></p>
                             </div>
-                            <img src="hta-logo.png" alt="شعار أكاديمية أبقراط" class="hta-logo">
+                            <img src="hta-logo.png" alt="شعار أكاديمية أبقراط" class="hta-logo" loading="lazy">
                         </div>
 
                         <div class="mb-4">
-                            <label for="course-selector" class="form-label h5">يرجى اختيار الدورة التي ترغب بالتسجيل بها</label>
+                            <label for="course-selector" class="form-label h5">يرجى اختيار الفعالية التدريبية التي ترغب بالتسجيل بها</label>
                             <select class="form-select form-select-lg" id="course-selector" required onchange="onCourseSelect()" disabled>
-                                <option value="" disabled selected>... جاري تحميل الدورات <i class="fas fa-spinner fa-spin"></i></option>
+                                <option value="" disabled selected>... جاري تحميل الفعاليات التدريبية <i class="fas fa-spinner fa-spin"></i></option>
                             </select>
                         </div>
 
@@ -137,16 +140,18 @@
                                 <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بعد إرسال هذا النموذج، ستظهر لك <strong>طرق الدفع المعتمدة</strong> في الأسفل لإكمال عملية التسجيل.
                             </div>
 
-                            <form id="registrationForm" class="g-3">
+                            <form id="registrationForm" class="g-3" role="form" novalidate>
                                 <input type="hidden" id="course-id-input" name="Course ID">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="fullNameAr" class="form-label">الاسم الكامل (بالعربية)</label>
-                                        <input type="text" class="form-control" id="fullNameAr" name="Full Name (Arabic)" required>
+                                        <input type="text" class="form-control" id="fullNameAr" name="Full Name (Arabic)" required aria-describedby="nameAr-help">
+                                        <div id="nameAr-help" class="form-text">يجب أن يحتوي على أحرف عربية فقط.</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="fullNameEn" class="form-label">Full Name (English)</label>
-                                        <input type="text" class="form-control" id="fullNameEn" name="Full Name (English)" required>
+                                        <input type="text" class="form-control" id="fullNameEn" name="Full Name (English)" required aria-describedby="nameEn-help">
+                                        <div id="nameEn-help" class="form-text">Should contain only English letters.</div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -157,14 +162,14 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="phone-number" class="form-label">رقم الهاتف (واتساب)</label>
                                         <div class="input-group">
-                                             <input type="tel" class="form-control" id="phone-number" name="Phone Number" placeholder="مثال: 79xxxxxxx" required aria-label="Phone number">
+                                             <input type="tel" class="form-control" id="phone-number" name="Phone Number" placeholder="مثال: 79xxxxxxx" required aria-label="Phone number" aria-describedby="phone-help">
                                             <div class="custom-country-code-dropdown">
-                                                <input type="text" class="form-control" id="country-code-search" placeholder="ابحث..." autocomplete="off">
+                                                <input type="text" class="form-control" id="country-code-search" placeholder="اكتب اسم الدولة للبحث" autocomplete="off" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-owns="country-list">
                                                 <input type="hidden" id="country-code-value" name="CountryCode" value="+962">
-                                                <ul class="country-list" id="country-list" style="display: none;"></ul>
+                                                <ul class="country-list" id="country-list" style="display: none;" role="listbox"></ul>
                                             </div>
                                         </div>
-                                        <div class="form-text text-muted">يرجى إدخال رقم الهاتف بدون الصفر في البداية (مثال: 79xxxxxxx).</div>
+                                        <div id="phone-help" class="form-text text-muted">يرجى إدخال رقم الهاتف بدون الصفر في البداية (مثال: 79xxxxxxx). يمكنك البحث عن الدولة بكتابة اسمها في الحقل المجاور.</div>
                                     </div>
                                 </div>
                                  <div class="row">
@@ -230,7 +235,7 @@
                                             <input type="text" class="form-control" id="licenseNo" name="License Number">
                                         </div>
                                     </div>
-                                    <p class="text-success small">✅ سيتم إضافة <span id="cpd-fee-display">5</span> دنانير إلى رسوم الدورة مقابل شهادة CPD.</p>
+                                    <p class="text-success small">✅ سيتم إضافة <span id="cpd-fee-display">5</span> دنانير إلى رسوم الفعالية التدريبية مقابل شهادة CPD.</p>
                                 </div>
 
                                 <div class="alert alert-secondary" role="alert">
@@ -278,7 +283,7 @@
     <!-- !!! تمت استعادة قسم الدفع والتذييل !!! -->
     <section id="payment-section" class="container my-5" style="display:none;">
         <div class="text-center mb-5">
-            <img src="hta-logo.png" alt="شعار أكاديمية أبقراط" class="hta-logo mb-3">
+            <img src="hta-logo.png" alt="شعار أكاديمية أبقراط" class="hta-logo mb-3" loading="lazy">
             <h1 class="display-5 brand-green fw-bold">شكراً لتسجيلك!</h1>
             <p class="lead text-muted">يرجى اختيار إحدى طرق الدفع المعتمدة التالية لإكمال حجز مقعدك.</p>
         </div>
@@ -341,7 +346,7 @@
         </div>
     </section>
 
-    <footer class="bg-dark text-white text-center py-4 mt-5">
+    <footer class="navbar-custom-bg text-white text-center py-4 mt-5">
         <div class="container">
             <p class="mb-2">
                 <strong>للاستفسار والتواصل:</strong>
@@ -468,11 +473,11 @@
                 selector.disabled = false;
             }).catch(error => {
                 console.error('Error fetching courses:', error);
-                selector.innerHTML = '<option value="" disabled selected>! فشل تحميل الدورات</option>';
+                selector.innerHTML = '<option value="" disabled selected>! فشل تحميل الفعاليات التدريبية</option>';
                 selector.disabled = true;
                  const alertDiv = document.createElement('div');
                  alertDiv.className = 'alert alert-danger mt-3';
-                 alertDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> عذرًا، حدث خطأ أثناء تحميل الدورات. يرجى تحديث الصفحة أو المحاولة مرة أخرى لاحقًا.`;
+                 alertDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> عذرًا، حدث خطأ أثناء تحميل الفعاليات التدريبية. يرجى تحديث الصفحة أو المحاولة مرة أخرى لاحقًا.`;
                  selector.parentNode.appendChild(alertDiv);
             });
         });
@@ -482,13 +487,16 @@
              const searchInput = document.getElementById('country-code-search');
              const hiddenInput = document.getElementById('country-code-value');
              const listElement = document.getElementById('country-list');
+             let activeOptionIndex = -1;
 
              function populateList() {
-                 countries.forEach(country => {
+                 countries.forEach((country, index) => {
                      const li = document.createElement('li');
                      li.textContent = `${country.name} (${country.code})`;
                      li.dataset.code = country.code;
                      li.dataset.name = country.name;
+                     li.setAttribute('role', 'option');
+                     li.id = `country-option-${index}`;
                      listElement.appendChild(li);
                  });
              }
@@ -505,6 +513,7 @@
                  const searchTerm = searchInput.value.toLowerCase().replace(/[()+-\s]/g, '');
                  const items = listElement.getElementsByTagName('li');
                  let hasResults = false;
+                 activeOptionIndex = -1;
 
                  for (const item of items) {
                      const itemName = item.dataset.name.toLowerCase();
@@ -517,31 +526,60 @@
                      }
                  }
                  listElement.style.display = hasResults ? 'block' : 'none';
+                 searchInput.setAttribute('aria-expanded', hasResults);
              }
 
              function selectCountry(e) {
-                 if (e.target.tagName === 'LI') {
+                 if (e.target && e.target.tagName === 'LI') {
                      const code = e.target.dataset.code;
                      const name = e.target.dataset.name;
                      searchInput.value = `${name} (${code})`;
                      hiddenInput.value = code;
                      listElement.style.display = 'none';
+                     searchInput.setAttribute('aria-expanded', 'false');
                  }
              }
-
+             
              function showList() {
                  const items = listElement.getElementsByTagName('li');
                  for (const item of items) {
                      item.style.display = 'block';
                  }
                  listElement.style.display = 'block';
+                 searchInput.setAttribute('aria-expanded', 'true');
              }
 
              function closeListIfClickedOutside(e) {
                  if (!e.target.closest('.custom-country-code-dropdown')) {
                      listElement.style.display = 'none';
+                     searchInput.setAttribute('aria-expanded', 'false');
                  }
              }
+
+             // Keyboard navigation
+             searchInput.addEventListener('keydown', function(e) {
+                 const visibleOptions = Array.from(listElement.querySelectorAll('li[style="display: block;"], li:not([style])'));
+                 if (e.key === 'ArrowDown') {
+                     e.preventDefault();
+                     if (listElement.style.display === 'none') showList();
+                     activeOptionIndex = (activeOptionIndex + 1) % visibleOptions.length;
+                     visibleOptions[activeOptionIndex].focus();
+                 } else if (e.key === 'ArrowUp') {
+                     e.preventDefault();
+                     if (listElement.style.display === 'none') showList();
+                     activeOptionIndex = (activeOptionIndex - 1 + visibleOptions.length) % visibleOptions.length;
+                     visibleOptions[activeOptionIndex].focus();
+                 } else if (e.key === 'Enter' || e.key === 'Tab') {
+                     if (document.activeElement.role === 'option') {
+                         e.preventDefault();
+                         selectCountry({ target: document.activeElement });
+                         searchInput.focus();
+                     }
+                 } else if (e.key === 'Escape') {
+                     listElement.style.display = 'none';
+                     searchInput.setAttribute('aria-expanded', 'false');
+                 }
+             });
 
              populateList();
              setDefaultCountry();
@@ -595,7 +633,7 @@
 
         function populateCourseDropdown() {
             const selector = document.getElementById('course-selector');
-            selector.innerHTML = '<option value="" disabled selected>-- اختر دورة --</option>';
+            selector.innerHTML = '<option value="" disabled selected>-- اختر فعالية تدريبية --</option>';
             let courseCount = 0;
             for (const id in coursesDB) {
                 const option = document.createElement('option');
@@ -605,7 +643,7 @@
                 courseCount++;
             }
             if (courseCount === 0) {
-                 selector.innerHTML = '<option value="" disabled selected>-- لا توجد دورات متاحة حالياً --</option>';
+                 selector.innerHTML = '<option value="" disabled selected>-- لا توجد فعاليات تدريبية متاحة حالياً --</option>';
             }
         }
 
@@ -621,12 +659,13 @@
                 fieldsWrapper.style.display = 'block';
             } else {
                 fieldsWrapper.style.display = 'none';
-                detailsDisplay.innerHTML = 'يرجى اختيار دورة من القائمة أدناه للبدء.';
+                // The placeholder text has been removed as requested
+                detailsDisplay.innerHTML = '';
             }
         }
 
         function loadCourseData(course) {
-            let detailsHTML = `نموذج التسجيل في دورة <strong>${course.name}</strong><br><small>(${course.date})</small>`;
+            let detailsHTML = `نموذج التسجيل في فعالية تدريبية <strong>${course.name}</strong><br><small>(${course.date})</small>`;
             if (course.instructor) {
                  detailsHTML += `<span class="instructor-name"><i class="fas fa-chalkboard-teacher me-1"></i> المدرب: ${course.instructor}</span>`;
             }
@@ -634,7 +673,7 @@
                 detailsHTML += `<span class="cpd-points-display"><i class="fas fa-award me-1"></i> ${course.cpdPoints} نقطة CPD معتمدة</span>`;
             }
             if (course.facebookLink && course.facebookLink.startsWith('http')) {
-                detailsHTML += `<a href="${course.facebookLink}" target="_blank" class="brand-green mt-1 d-block"><i class="fab fa-facebook me-2"></i> مشاهدة تفاصيل الدورة على فيسبوك</a>`;
+                detailsHTML += `<a href="${course.facebookLink}" target="_blank" class="brand-green mt-1 d-block"><i class="fab fa-facebook me-2"></i> مشاهدة تفاصيل الفعالية التدريبية على فيسبوك</a>`;
             }
             document.getElementById('course-details-display').innerHTML = detailsHTML;
             document.getElementById('total-fee').innerText = `${course.basePrice} ${course.currency}`;
@@ -671,6 +710,9 @@
              const terms = document.getElementById('terms').checked;
              const nationality = document.getElementById('nationality').value;
              const otherNationality = document.getElementById('other-nationality-field').querySelector('input').value.trim();
+             const cpdRequest = document.getElementById('cpd').value;
+             const nationalId = document.getElementById('nationalId').value.trim();
+             const licenseNo = document.getElementById('licenseNo').value.trim();
 
 
              if (!/^[\u0600-\u06FF\s]+$/.test(fullNameAr)) {
@@ -715,6 +757,13 @@
                  return false;
              }
 
+             if (cpdRequest === 'نعم' && (!nationalId || !licenseNo)) {
+                 alert('عند طلب شهادة CPD، يجب إدخال الرقم الوطني ورقم المزاولة.');
+                 if (!nationalId) document.getElementById('nationalId').focus();
+                 else document.getElementById('licenseNo').focus();
+                 return false;
+             }
+
 
              if (!terms) {
                  alert('يجب الموافقة على التعهد والإقرار لإكمال التسجيل.');
@@ -755,9 +804,10 @@
 
                 const successAlert = document.createElement('div');
                 successAlert.className = 'alert alert-success';
+                successAlert.setAttribute('role', 'status');
                 successAlert.innerHTML = `
                     <h4 class="alert-heading"><i class="fas fa-check-circle"></i> تم إرسال بياناتك بنجاح!</h4>
-                    <p>شكرًا لك على التسجيل في دورة <strong>${currentCourse.name}</strong>.</p>
+                    <p>شكرًا لك على التسجيل في فعالية تدريبية <strong>${currentCourse.name}</strong>.</p>
                     <p class="mb-0"><strong>تم إرسال بريد إلكتروني تأكيدي إلى ${userEmail}.</strong> يرجى فحص صندوق الوارد والبريد المزعج (Spam) للحصول على تفاصيل التسجيل وطرق الدفع.</p>
                 `;
 
