@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عن الأكاديمية - أكاديمية أبقراط للتدريب</title>
+    <title>منصة تسجيل الفعاليات التدريبية لأكاديمية أبقراط للتدريب</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
@@ -11,48 +11,403 @@
         .brand-green-bg { background-color: #198754; }
         .brand-green-bg:hover { background-color: #157347; }
         .hta-logo { max-height: 80px; }
+        .registration-fields { display: none; }
+        .payment-card { transition: transform 0.2s; }
+        .payment-card:hover { transform: translateY(-5px); }
+        form ol {
+            padding-right: 1.2rem;
+            padding-left: 0;
+        }
+        .instructor-name, .cpd-points-display {
+            font-size: 0.9em;
+            color: #6c757d;
+            display: block;
+            margin-top: 2px;
+        }
+        .custom-country-code-dropdown {
+            flex: 0 0 auto;
+            width: 180px;
+            position: relative;
+        }
+        .custom-country-code-dropdown .form-control {
+            padding-right: 2.5rem;
+            padding-left: 0.75rem;
+        }
+        .custom-country-code-dropdown::after {
+            content: '\f078';
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 1rem;
+            left: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #6c757d;
+        }
+        .country-list {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            left: 0;
+            border: 1px solid #ced4da;
+            border-top: none;
+            background-color: white;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            border-radius: 0 0 0.375rem 0.375rem;
+            text-align: right;
+        }
+        .country-list li {
+            padding: 0.6rem 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .country-list li:hover, .country-list li[aria-selected="true"] {
+            background-color: #f8f9fa;
+        }
+        .country-list li.selected {
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+        #phone-number {
+             direction: ltr;
+             text-align: left;
+             flex: 1 1 auto;
+             width: 1%;
+             min-width: 200px;
+        }
+        #country-code-search {
+            width: 100%;
+        }
+        .input-group {
+            direction: ltr;
+        }
+        #course-selector option i {
+             margin-left: 5px;
+             margin-right: 0;
+        }
+        /* Custom Navbar Style */
+        .navbar-custom-bg {
+            /* Subtle gradient for visual comfort */
+            background: linear-gradient(to left, #7c2bc9, #6a0dad);
+        }
+        /* Style for the nav links to be "dark white" */
+        .navbar-custom-bg .navbar-nav .nav-link {
+            color: #f8f9fa; /* A light, "dark white" color */
+            font-weight: 500; /* Make it slightly bolder for readability */
+        }
+        .navbar-custom-bg .navbar-nav .nav-link:hover {
+            color: #ffffff; /* Make it brighter on hover for better feedback */
+        }
+        /* Style for the brand name separator */
+        .brand-name-en {
+            margin-right: 0.5rem;
+        }
+
+        /* === الإبداع يبدأ من هنا: تصميم العنوان الجديد === */
+        .page-title-wrapper {
+            /* تم التعديل هنا: تم توسيط العنوان */
+            text-align: center;
+            margin-bottom: 1.5rem;
+            /* حركة الظهور */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-title {
+            font-size: 1.75rem; /* حجم خط مناسب */
+            font-weight: 700; /* خط عريض */
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+            color: #212529; /* لون أسود داكن */
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem; 
+            /* تم التعديل هنا: تم تغيير لون اسم الأكاديمية إلى بنفسجي غامق */
+            color: #6a0dad; /* لون العلامة التجارية البنفسجي */
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+        /* تم حذف كلاس .title-underline من هنا لأنه لم يعد مستخدمًا */
+        /* === نهاية التصميم الإبداعي === */
+
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-bg">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Hippocrates Training Academy</a>
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-name-ar">أكاديمية أبقراط للتدريب</span>
+                <span class="brand-name-hta d-inline-block d-lg-none"> | HTA</span>
+                <span class="brand-name-en d-none d-lg-inline-block">| Hippocrates Training Academy</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="about.html">About</a></li>
-                    </ul>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <section class="container my-5">
+    <section id="registration-section" class="container my-5">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
-                <div class="text-center mb-4">
-                    <img src="hta-logo.png" alt="شعار أكاديمية أبقراط" class="hta-logo mb-3">
-                    <h1 class="display-5 brand-green fw-bold">عن الأكاديمية</h1>
+                <div class="card shadow-lg">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <!-- === تم استبدال العنوان القديم بالتصميم الجديد المبدع === -->
+                                <div class="page-title-wrapper">
+                                    <h1 class="page-title">
+                                        <!-- تم التعديل هنا: تم تغيير لون كلمة "منصة" إلى الأسود -->
+                                        <span style="color: black;">منصة</span> تسجيل الفعاليات التدريبية
+                                    </h1>
+                                    <p class="page-subtitle">أكاديمية أبقراط للتدريب</p>
+                                    <!-- تم التعديل هنا: تم حذف الخط الزخرفي -->
+                                </div>
+                                <p class="text-muted" id="course-details-display"></p>
+                            </div>
+                            <img src="hta-logo.png" alt="شعار أكاديمية أبقراط" class="hta-logo" loading="lazy">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="course-selector" class="form-label h5">يرجى اختيار الفعالية التدريبية التي ترغب بالتسجيل بها</label>
+                            <select class="form-select form-select-lg" id="course-selector" required onchange="onCourseSelect()" disabled>
+                                <option value="" disabled selected>... جاري تحميل الفعاليات التدريبية <i class="fas fa-spinner fa-spin"></i></option>
+                            </select>
+                        </div>
+
+                        <div id="registration-fields" class="registration-fields">
+                            <div class="alert alert-info" role="alert">
+                                <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بعد إرسال هذا النموذج، ستظهر لك <strong>طرق الدفع المعتمدة</strong> في الأسفل لإكمال عملية التسجيل.
+                            </div>
+
+                            <form id="registrationForm" class="g-3" role="form" novalidate>
+                                <input type="hidden" id="course-id-input" name="Course ID">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fullNameAr" class="form-label">الاسم الكامل (بالعربية)</label>
+                                        <input type="text" class="form-control" id="fullNameAr" name="Full Name (Arabic)" required aria-describedby="nameAr-help">
+                                        <div id="nameAr-help" class="form-text">يجب أن يحتوي على أحرف عربية فقط.</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fullNameEn" class="form-label">Full Name (English)</label>
+                                        <input type="text" class="form-control" id="fullNameEn" name="Full Name (English)" required aria-describedby="nameEn-help">
+                                        <div id="nameEn-help" class="form-text">Should contain only English letters.</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">البريد الإلكتروني</label>
+                                        <input type="email" class="form-control" id="email" name="Email" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone-number" class="form-label">رقم الهاتف (واتساب)</label>
+                                        <div class="input-group">
+                                             <input type="tel" class="form-control" id="phone-number" name="Phone Number" placeholder="مثال: 79xxxxxxx" required aria-label="Phone number" aria-describedby="phone-help">
+                                            <div class="custom-country-code-dropdown">
+                                                <input type="text" class="form-control" id="country-code-search" placeholder="اكتب اسم الدولة للبحث" autocomplete="off" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-owns="country-list">
+                                                <input type="hidden" id="country-code-value" name="CountryCode" value="+962">
+                                                <ul class="country-list" id="country-list" style="display: none;" role="listbox"></ul>
+                                            </div>
+                                        </div>
+                                        <div id="phone-help" class="form-text text-muted">يرجى إدخال رقم الهاتف بدون الصفر في البداية (مثال: 79xxxxxxx). يمكنك البحث عن الدولة بكتابة اسمها في الحقل المجاور.</div>
+                                    </div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nationality" class="form-label">الجنسية</label>
+                                        <select class="form-select" id="nationality" name="Nationality" required onchange="toggleOtherNationality(this.value)">
+                                            <option value="" disabled selected>اختر جنسيتك</option>
+                                            <option value="الأردن">الأردن</option>
+                                            <option value="الإمارات العربية المتحدة">الإمارات العربية المتحدة</option>
+                                            <option value="البحرين">البحرين</option>
+                                            <option value="تونس">تونس</option>
+                                            <option value="الجزائر">الجزائر</option>
+                                            <option value="جزر القمر">جزر القمر</option>
+                                            <option value="جيبوتي">جيبوتي</option>
+                                            <option value="السعودية">السعودية</option>
+                                            <option value="السودان">السودان</option>
+                                            <option value="سوريا">سوريا</option>
+                                            <option value="الصومال">الصومال</option>
+                                            <option value="العراق">العراق</option>
+                                            <option value="عُمان">عُمان</option>
+                                            <option value="فلسطين">فلسطين</option>
+                                            <option value="قطر">قطر</option>
+                                            <option value="الكويت">الكويت</option>
+                                            <option value="لبنان">لبنان</option>
+                                            <option value="ليبيا">ليبيا</option>
+                                            <option value="مصر">مصر</option>
+                                            <option value="المغرب">المغرب</option>
+                                            <option value="اليمن">اليمن</option>
+                                            <option value="موريتانيا">موريتانيا</option>
+                                            <option value="أخرى">أخرى</option>
+                                        </select>
+                                        <div id="other-nationality-field" class="mt-2" style="display:none;">
+                                            <input type="text" class="form-control" name="Other Nationality" placeholder="يرجى تحديد بلدك">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="degree" class="form-label">الدرجة العلمية</label>
+                                        <select class="form-select" id="degree" name="Academic Degree">
+                                            <option>على مقاعد الدراسة / Student</option>
+                                            <option>بكالوريوس / Bachelor</option>
+                                            <option>ماجستير / Master</option>
+                                            <option>دكتوراه / PhD</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="cpd" class="form-label">هل ترغب بالحصول على نقاط التعليم المهني المستمر (CPD)؟</label>
+                                    <select class="form-select" id="cpd" name="CPD Request" onchange="toggleCPDFields(this.value)">
+                                        <option value="لا">لا</option>
+                                        <option value="نعم">نعم</option>
+                                    </select>
+                                </div>
+
+                                <div id="cpd-fields" style="display:none;">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nationalId" class="form-label">الرقم الوطني</label>
+                                            <input type="text" class="form-control" id="nationalId" name="National ID">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="licenseNo" class="form-label">رقم المزاولة (وزارة الصحة)</label>
+                                            <input type="text" class="form-control" id="licenseNo" name="License Number">
+                                        </div>
+                                    </div>
+                                    <p class="text-success small">✅ سيتم إضافة <span id="cpd-fee-display">5</span> دنانير إلى رسوم الفعالية التدريبية مقابل شهادة CPD.</p>
+                                </div>
+
+                                <div class="alert alert-secondary" role="alert">
+                                    💰 المبلغ الإجمالي المطلوب: <strong id="total-fee">...</strong>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">التعهد والإقرار:</label>
+                                    <div class="border p-3" style="max-height: 200px; overflow-y: auto; background-color: #f8f9fa; font-size: 0.9rem;">
+                                        <p>أتعهد أنا، مدخل البيانات في هذا النموذج الإلكتروني، بأن جميع المعلومات التي قمت بإدخالها صحيحة ودقيقة.</p>
+                                        <p>كما أقرّ بأنني على دراية تامة بطبيعة الفعالية التدريبية التي أسجل فيها، وما قد تتضمنه – إن وُجد – من تطبيقات عملية على نفسي أو على الزملاء المشاركين، أو تداخلات ضمن التمارين التدريبية التطبيقية.</p>
+                                        <p>وأتعهد بما يلي:</p>
+                                        <ol>
+                                            <li>الحفاظ على خصوصية الفعالية التدريبية واحترام خصوصية جميع المشاركين والزملاء.</li>
+                                            <li>الالتزام بحضور كامل مدة الفعالية التدريبية وفق البرنامج المعلن.</li>
+                                            <li>أتفهم وأقرّ بأن عدم الحضور الكامل لأي من أيام الفعالية قد يؤدي إلى عدم استحقاق شهادة المشاركة (في حال كانت متوفرة لتلك الفعالية).</li>
+                                            <li>أقرّ بأنني اطلعت على سياسة إلغاء الحجز والتغيير للفعاليات التدريبية الصادرة عن أكاديمية أبقراط للتدريب والمذكورة على الرابط التالي، وأوافق على جميع بنودها وشروطها دون تحفظ:
+                                                <br>
+                                                <a href="https://drive.google.com/open?id=1O5Q2ryIn4Eh5nsQf2Ycn7SytKWDKL0ql&usp=drive_fs" class="brand-green" target="_blank">🔗 سياسة إلغاء الحجز والتغيير للفعاليات التدريبية</a>
+                                            </li>
+                                            <li>أتفهم أن بعض الفعاليات التدريبية قد لا تتضمن شهادة مشاركة أو تدريبًا عمليًا، وذلك بحسب طبيعة كل فعالية.</li>
+                                        </ol>
+                                        <p><strong>وبذلك أتحمل كامل المسؤولية عن صحة البيانات والالتزام بما ورد أعلاه.</strong></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        أوافق على التعهد والإقرار أعلاه وأعلم أن التسجيل لن يكتمل إلا بعد الدفع.
+                                    </label>
+                                </div>
+
+                                <button type="submit" class="btn brand-green-bg text-white btn-lg w-100">
+                                    أرسل بياناتي واعرض طرق الدفع
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                
-                <p class="lead" style="line-height: 1.8;">
-                    تأسست أكاديمية أبقراط للتدريب عام 2022 كأكاديمية متخصصة في التدريب والاستشارات في المجالات الصحية، الطبية، الإدارية، والتقنية.
-                </p>
-                <p style="line-height: 1.8;">
-                    هدفها تلبية طلب السوق المحلي والإقليمي لخدمات تدريبية متميزة وتحقيق الريادة والابتكار في التدريب والتعليم المستمر.
-                </p>
-                <p style="line-height: 1.8;">
-                    تهدف أكاديمية أبقراط للتدريب إلى تقديم خدمات تدريبية عالية المستوى للمهنيين والطلاب في مختلف القطاعات، من خلال مدربين متميزين يمتلكون المعرفة والمهارات المتخصصة في مجالاتهم، ضمن بيئة تدريبية ممتازة، ومع توفير كافة التسهيلات الممكنة.
-                </p>
             </div>
         </div>
     </section>
 
+    <!-- !!! تمت استعادة قسم الدفع والتذييل !!! -->
+    <section id="payment-section" class="container my-5" style="display:none;">
+        <div class="text-center mb-5">
+            <img src="hta-logo.png" alt="شعار أكاديمية أبقراط" class="hta-logo mb-3" loading="lazy">
+            <h1 class="display-5 brand-green fw-bold">شكراً لتسجيلك!</h1>
+            <p class="lead text-muted">يرجى اختيار إحدى طرق الدفع المعتمدة التالية لإكمال حجز مقعدك.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 shadow payment-card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-university me-2"></i>التحويل البنكي</h5>
+                        <p class="card-text">
+                            <strong>اسم الحساب:</strong> ACADEMYAT ABQRAT LEL TAALEM<br>
+                            <strong>رقم الحساب:</strong> 0020174190615101<br>
+                            <strong>IBAN:</strong> JO51UBSI1120000020174190615101<br>
+                            <strong>SWIFT:</strong> UBSIJOAX
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 shadow payment-card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-wallet me-2"></i>المحفظة الإلكترونية (زين كاش)</h5>
+                        <p class="card-text">
+                            <strong>الرقم:</strong> 00962796100112
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 shadow payment-card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-mobile-alt me-2"></i>خدمة CLIQ – بنك الاتحاد</h5>
+                        <p class="card-text">
+                            <strong>الاسم المستعار:</strong> HTAJO
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 shadow payment-card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-money-bill-wave me-2"></i>تحويل عبر مكاتب الصرافة</h5>
+                        <p class="card-text">
+                            <strong>الاسم:</strong> AMER SALEH HUSSIEN AL-HAMDAN<br>
+                            <small>(العلاونة أو أبو شيخة)</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-warning mt-5 text-center" role="alert">
+            <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>ملاحظة هامة</h5>
+            <p class="mb-0">
+                يرجى إرسال صورة عن وصل الدفع بعد إتمام التحويل <strong>واسم صاحب الحساب</strong> لتأكيد الحجز رسميًا. لأي استفسار، يرجى التواصل معنا عبر الهاتف أو تطبيق واتساب على الرقم: <strong>+962787269996</strong>.
+            </p>
+        </div>
+        <div class="text-center mt-4">
+            <a href="https://wa.me/962787269996" target="_blank" class="btn brand-green-bg text-white btn-lg">
+                <i class="fab fa-whatsapp me-2"></i> أرسل صورة الإيصال عبر واتساب
+            </a>
+        </div>
+    </section>
 
-    <footer class="bg-dark text-white text-center py-4 mt-5">
+    <footer class="navbar-custom-bg text-white text-center py-4 mt-5">
         <div class="container">
             <p class="mb-2">
                 <strong>للاستفسار والتواصل:</strong>
@@ -64,7 +419,463 @@
         </div>
     </footer>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
+    <script>
+        const CSV_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQghOdUAW_v2svTLHGwZWpWU2x7tdsE24m8LPOGKFZNlef2q91JD88aEoMF5psdDbJzYZV4TmhoWig/pub?gid=0&single=true&output=csv";
+
+        let coursesDB = {};
+        let currentCourse = null;
+
+        const countries = [
+             { name: 'أفغانستان', code: '+93' }, { name: 'ألبانيا', code: '+355' }, { name: 'الجزائر', code: '+213' },
+             { name: ' Samoa الأمريكية', code: '+1684' }, { name: 'أندورا', code: '+376' }, { name: 'أنغولا', code: '+244' },
+             { name: 'أنغويلا', code: '+1264' }, { name: 'أنتاركتيكا', code: '+672' }, { name: 'أنتيغوا وباربودا', code: '+1268' },
+             { name: 'الأرجنتين', code: '+54' }, { name: 'أرمينيا', code: '+374' }, { name: 'أروبا', code: '+297' },
+             { name: 'أستراليا', code: '+61' }, { name: 'النمسا', code: '+43' }, { name: 'أذربيجان', code: '+994' },
+             { name: 'البهاما', code: '+1242' }, { name: 'البحرين', code: '+973' }, { name: 'بنغلاديش', code: '+880' },
+             { name: 'بربادوس', code: '+1246' }, { name: 'بيلاروسيا', code: '+375' }, { name: 'بلجيكا', code: '+32' },
+             { name: 'بليز', code: '+501' }, { name: 'بنين', code: '+229' }, { name: 'برمودا', code: '+1441' },
+             { name: 'بوتان', code: '+975' }, { name: 'بوليفيا', code: '+591' }, { name: 'البوسنة والهرسك', code: '+387' },
+             { name: 'بوتسوانا', code: '+267' }, { name: 'البرازيل', code: '+55' }, { name: 'إقليم المحيط الهندي البريطاني', code: '+246' },
+             { name: 'بروناي دار السلام', code: '+673' }, { name: 'بلغاريا', code: '+359' }, { name: 'بوركينا فاسو', code: '+226' },
+             { name: 'بوروندي', code: '+257' }, { name: 'كمبوديا', code: '+855' }, { name: 'الكاميرون', code: '+237' },
+             { name: 'كندا', code: '+1' }, { name: 'الرأس الأخضر', code: '+238' }, { name: 'جزر كايمان', code: '+1345' },
+             { name: 'جمهورية أفريقيا الوسطى', code: '+236' }, { name: 'تشاد', code: '+235' }, { name: 'تشيلي', code: '+56' },
+             { name: 'الصين', code: '+86' }, { name: 'جزيرة عيد الميلاد', code: '+61' }, { name: 'جزر كوكوس (كيلينغ)', code: '+672' },
+             { name: 'كولومبيا', code: '+57' }, { name: 'جزر القمر', code: '+269' }, { name: 'جزر كوك', code: '+682' },
+             { name: 'كوستاريكا', code: '+506' }, { name: 'ساحل العاج', code: '+225' }, { name: 'كرواتيا', code: '+385' },
+             { name: 'كوبا', code: '+53' }, { name: 'قبرص', code: '+357' }, { name: 'جمهورية التشيك', code: '+420' },
+             { name: 'جمهورية الكونغو الديمقراطية', code: '+243' }, { name: 'الدنمارك', code: '+45' }, { name: 'جيبوتي', code: '+253' },
+             { name: 'دومينيكا', code: '+1767' }, { name: 'جمهورية الدومينيكان', code: '+1809' }, { name: 'الإكوادور', code: '+593' },
+             { name: 'مصر', code: '+20' }, { name: 'السلفادور', code: '+503' }, { name: 'غينيا الاستوائية', code: '+240' },
+             { name: 'إريتريا', code: '+291' }, { name: 'إستونيا', code: '+372' }, { name: 'إثيوبيا', code: '+251' },
+             { name: 'جزر فوكلاند (مالفيناس)', code: '+500' }, { name: 'جزر فارو', code: '+298' }, { name: 'فيجي', code: '+679' },
+             { name: 'فنلندا', code: '+358' }, { name: 'فرنسا', code: '+33' }, { name: 'غيانا الفرنسية', code: '+594' },
+             { name: 'بولينيزيا الفرنسية', code: '+689' }, { name: 'الغابون', code: '+241' }, { name: 'غامبيا', code: '+220' },
+             { name: 'جورجيا', code: '+995' }, { name: 'ألمانيا', code: '+49' }, { name: 'غانا', code: '+233' },
+             { name: 'جبل طارق', code: '+350' }, { name: 'اليونان', code: '+30' }, { name: 'غرينلاند', code: '+299' },
+             { name: 'غرينادا', code: '+1473' }, { name: 'غوادلوب', code: '+590' }, { name: 'غوام', code: '+1671' },
+             { name: 'غواتيمالا', code: '+502' }, { name: 'غيرنزي', code: '+44' }, { name: 'غينيا', code: '+224' },
+             { name: 'غينيا بيساو', code: '+245' }, { name: 'غيانا', code: '+592' }, { name: 'هايتي', code: '+509' },
+             { name: 'الفاتيكان', code: '+379' }, { name: 'هندوراس', code: '+504' }, { name: 'هونغ كونغ', code: '+852' },
+             { name: 'المجر', code: '+36' }, { name: 'آيسلندا', code: '+354' }, { name: 'الهند', code: '+91' },
+             { name: 'إندونيسيا', code: '+62' }, { name: 'إيران', code: '+98' }, { name: 'العراق', code: '+964' },
+             { name: 'أيرلندا', code: '+353' }, { name: 'جزيرة مان', code: '+44' }, { name: 'إسرائيل', code: '+972' },
+             { name: 'إيطاليا', code: '+39' }, { name: 'جامايكا', code: '+1876' }, { name: 'اليابان', code: '+81' },
+             { name: 'جيرزي', code: '+44' }, { name: 'الأردن', code: '+962' }, { name: 'كازاخستان', code: '+7' },
+             { name: 'كينيا', code: '+254' }, { name: 'كيريباتي', code: '+686' }, { name: 'الكويت', code: '+965' },
+             { name: 'قيرغيزستان', code: '+996' }, { name: 'لاوس', code: '+856' }, { name: 'لاتفيا', code: '+371' },
+             { name: 'لبنان', code: '+961' }, { name: 'ليسوتو', code: '+266' }, { name: 'ليبيريا', code: '+231' },
+             { name: 'ليبيا', code: '+218' }, { name: 'ليختنشتاين', code: '+423' }, { name: 'ليتوانيا', code: '+370' },
+             { name: 'لوكسمبورغ', code: '+352' }, { name: 'ماكاو', code: '+853' }, { name: 'مقدونيا الشمالية', code: '+389' },
+             { name: 'مدغشقر', code: '+261' }, { name: 'مالاوي', code: '+265' }, { name: 'ماليزيا', code: '+60' },
+             { name: 'المالديف', code: '+960' }, { name: 'مالي', code: '+223' }, { name: 'مالطا', code: '+356' },
+             { name: 'جزر مارشال', code: '+692' }, { name: 'Martinique', code: '+596' }, { name: 'موريتانيا', code: '+222' },
+             { name: 'موريشيوس', code: '+230' }, { name: 'مايوت', code: '+262' }, { name: 'المكسيك', code: '+52' },
+             { name: 'ولايات ميكرونيسيا المتحدة', code: '+691' }, { name: 'مولدوفا', code: '+373' }, { name: 'موناكو', code: '+377' },
+             { name: 'منغوليا', code: '+976' }, { name: 'منغوليا', code: '+992' }, { name: 'بالاو', code: '+680' }, { name: 'فلسطين', code: '+970' },
+             { name: 'بنما', code: '+507' }, { name: 'بابوا غينيا الجديدة', code: '+675' }, { name: 'باراغواي', code: '+675' },
+             { name: 'بيرو', code: '+51' }, { name: 'الفلبين', code: '+63' }, { name: 'جزر بيتكيرن', code: '+64' },
+             { name: 'بولندا', code: '+48' }, { name: 'البرتغال', code: '+351' }, { name: 'بورتوريكو', code: '+1787' },
+             { name: 'قطر', code: '+974' }, { name: 'رومانيا', code: '+40' }, { name: 'روسيا', code: '+7' },
+             { name: 'رواندا', code: '+250' }, { name: 'رونيون', code: '+262' }, { name: 'سان بارتيليمي', code: '+590' },
+             { name: 'سانت هيلينا', code: '+290' }, { name: 'سانت كيتس ونيفيس', code: '+1869' }, { name: 'سانت كيتس ونيفيس', code: '+1758' },
+             { name: 'سانت مارتن (الجزء الفرنسي)', code: '+590' }, { name: 'سان بيير وميكلون', code: '+508' },
+             { name: 'سانت فنسنت والغرينادين', code: '+1784' }, { name: 'ساموا الأمريكية', code: '+684' },
+             { name: 'سان مارينو', code: '+378' }, { name: 'ساو تومي وبرينسيب', code: '+239' }, { name: 'السعودية', code: '+966' }, { name: 'صربيا', code: '+381' }, { name: 'سينت مارتن (الجزء الهولندي)', code: '+1721' },
+             { name: 'سلوفاكيا', code: '+421' }, { name: 'سلوفينيا', code: '+386' }, { name: 'جزر سليمان', code: '+677' },
+             { name: 'الصومال', code: '+252' }, { name: 'جنوب أفريقيا', code: '+27' }, { name: 'كوريا الجنوبية', code: '+82' },
+             { name: 'جنوب السودان', code: '+211' }, { name: 'إسبانيا', code: '+34' }, { name: 'سريلانكا', code: '+94' },
+             { name: 'السودان', code: '+249' }, { name: 'سورينام', code: '+597' }, { name: 'سفالبارد وجان ماين', code: '+47' },
+             { name: 'إسواتيني', code: '+268' }, { name: 'تايوان', code: '+886' }, { name: 'طاجيكستان', code: '+992' },
+             { name: 'تنزانيا', code: '+255' }, { name: 'تايلاند', code: '+66' }, { name: 'تيمور الشرقية', code: '+670' },
+             { name: 'توغو', code: '+228' }, { name: 'توكلاو', code: '+690' }, { name: 'تونغا', code: '+676' },
+             { name: 'تونس', code: '+216' }, { name: 'تركيا', code: '+90' }, { name: 'تركمانستان', code: '+993' },
+             { name: 'جزر توركس وكايكوس', code: '+1649' }, { name: 'توفالو', code: '+688' }, { name: 'أوغندا', code: '+256' },
+             { name: 'أوكرانيا', code: '+380' }, { name: 'الإمارات العربية المتحدة', code: '+971' }, { name: 'المملكة المتحدة', code: '+44' },
+             { name: 'الولايات المتحدة', code: '+1' }, { name: 'أوروغواي', code: '+598' }, { name: 'أوزبكستان', code: '+998' },
+             { name: 'فانواتو', code: '+678' }, { name: 'فنزويلا', code: '+58' }, { name: 'فيتنام', code: '+84' },
+             { name: 'جزر فيرجن البريطانية', code: '+1284' }, { name: 'جزر فيرجن الأمريكية', code: '+1340' },
+             { name: 'واليس وفوتونا', code: '+681' }, { name: 'اليمن', code: '+967' }, { name: 'زامبيا', code: '+260' },
+             { name: 'زيمبابوي', code: '+263' }
+        ];
+
+        // --- باقي كود الجافاسكريبت ---
+        document.addEventListener("DOMContentLoaded", function() {
+            initCountryCodeDropdown(); // تهيئة قائمة الدول
+
+            const phoneInput = document.getElementById('phone-number');
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value;
+                if (value.startsWith('0')) {
+                    e.target.value = value.substring(1);
+                }
+            });
+
+            const selector = document.getElementById('course-selector');
+            fetch(CSV_SHEET_URL).then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            }).then(csvText => {
+                coursesDB = parseCSV(csvText);
+                populateCourseDropdown();
+                selector.disabled = false;
+            }).catch(error => {
+                console.error('Error fetching courses:', error);
+                selector.innerHTML = '<option value="" disabled selected>فشل تحميل الفعاليات التدريبية!</option>';
+                selector.disabled = true;
+                 const alertDiv = document.createElement('div');
+                 alertDiv.className = 'alert alert-danger mt-3';
+                 alertDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> عذرًا، حدث خطأ أثناء تحميل الفعاليات التدريبية. يرجى تحديث الصفحة أو المحاولة مرة أخرى لاحقًا.`;
+                 selector.parentNode.appendChild(alertDiv);
+            });
+        });
+
+
+        function initCountryCodeDropdown() {
+             const searchInput = document.getElementById('country-code-search');
+             const hiddenInput = document.getElementById('country-code-value');
+             const listElement = document.getElementById('country-list');
+             let activeOptionIndex = -1;
+
+             function populateList() {
+                 countries.forEach((country, index) => {
+                     const li = document.createElement('li');
+                     li.textContent = `${country.name} (${country.code})`;
+                     li.dataset.code = country.code;
+                     li.dataset.name = country.name;
+                     li.setAttribute('role', 'option');
+                     li.id = `country-option-${index}`;
+                     listElement.appendChild(li);
+                 });
+             }
+
+             function setDefaultCountry() {
+                 const defaultCountry = countries.find(c => c.code === '+962');
+                 if (defaultCountry) {
+                     searchInput.value = `${defaultCountry.name} (${defaultCountry.code})`;
+                     hiddenInput.value = defaultCountry.code;
+                 }
+             }
+
+             function filterList() {
+                 const searchTerm = searchInput.value.toLowerCase().replace(/[()+-\s]/g, '');
+                 const items = listElement.getElementsByTagName('li');
+                 let hasResults = false;
+                 activeOptionIndex = -1;
+
+                 for (const item of items) {
+                     const itemName = item.dataset.name.toLowerCase();
+                     const itemCode = item.dataset.code.replace(/[+]/g, '');
+                     if (itemName.includes(searchTerm) || itemCode.includes(searchTerm)) {
+                         item.style.display = 'block';
+                         hasResults = true;
+                     } else {
+                         item.style.display = 'none';
+                     }
+                 }
+                 listElement.style.display = hasResults ? 'block' : 'none';
+                 searchInput.setAttribute('aria-expanded', hasResults);
+             }
+
+             function selectCountry(e) {
+                 if (e.target && e.target.tagName === 'LI') {
+                     const code = e.target.dataset.code;
+                     const name = e.target.dataset.name;
+                     searchInput.value = `${name} (${code})`;
+                     hiddenInput.value = code;
+                     listElement.style.display = 'none';
+                     searchInput.setAttribute('aria-expanded', 'false');
+                 }
+             }
+             
+             function showList() {
+                 const items = listElement.getElementsByTagName('li');
+                 for (const item of items) {
+                     item.style.display = 'block';
+                 }
+                 listElement.style.display = 'block';
+                 searchInput.setAttribute('aria-expanded', 'true');
+             }
+
+             function closeListIfClickedOutside(e) {
+                 if (!e.target.closest('.custom-country-code-dropdown')) {
+                     listElement.style.display = 'none';
+                     searchInput.setAttribute('aria-expanded', 'false');
+                 }
+             }
+
+             // Keyboard navigation
+             searchInput.addEventListener('keydown', function(e) {
+                 const visibleOptions = Array.from(listElement.querySelectorAll('li[style="display: block;"], li:not([style])'));
+                 if (e.key === 'ArrowDown') {
+                     e.preventDefault();
+                     if (listElement.style.display === 'none') showList();
+                     activeOptionIndex = (activeOptionIndex + 1) % visibleOptions.length;
+                     visibleOptions[activeOptionIndex].focus();
+                 } else if (e.key === 'ArrowUp') {
+                     e.preventDefault();
+                     if (listElement.style.display === 'none') showList();
+                     activeOptionIndex = (activeOptionIndex - 1 + visibleOptions.length) % visibleOptions.length;
+                     visibleOptions[activeOptionIndex].focus();
+                 } else if (e.key === 'Enter' || e.key === 'Tab') {
+                     if (document.activeElement.role === 'option') {
+                         e.preventDefault();
+                         selectCountry({ target: document.activeElement });
+                         searchInput.focus();
+                     }
+                 } else if (e.key === 'Escape') {
+                     listElement.style.display = 'none';
+                     searchInput.setAttribute('aria-expanded', 'false');
+                 }
+             });
+
+             populateList();
+             setDefaultCountry();
+
+             searchInput.addEventListener('input', filterList);
+             searchInput.addEventListener('focus', showList);
+             listElement.addEventListener('click', selectCountry);
+             document.addEventListener('click', closeListIfClickedOutside);
+        }
+
+
+        function parseCSV(text) {
+            const courses = {};
+            const lines = text.split(/\r?\n/);
+
+            if (lines.length < 2) return {};
+
+            const headers = lines[0].split(',').map(h => h.trim());
+            const idIndex = headers.indexOf('id');
+            const nameIndex = headers.indexOf('name');
+            const dateIndex = headers.indexOf('date');
+            const basePriceIndex = headers.indexOf('basePrice');
+            const cpdFeeIndex = headers.indexOf('cpdFee');
+            const statusIndex = headers.indexOf('status');
+            const facebookLinkIndex = headers.indexOf('facebookLink');
+            const instructorIndex = headers.indexOf('instructor');
+            const cpdPointsIndex = headers.indexOf('cpdPoints');
+
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i]) continue;
+                const data = lines[i].split(',');
+
+                if (data.length > statusIndex && data[statusIndex] && data[statusIndex] && data[statusIndex].trim().toLowerCase() === 'active') {
+                    const id = data[idIndex] ? data[idIndex].trim() : `course_${i}`;
+                    const name = data[nameIndex] ? data[nameIndex].trim() : 'N/A';
+                    const date = data[dateIndex] ? data[dateIndex].trim() : 'N/A';
+                    const basePrice = data[basePriceIndex] ? parseInt(data[basePriceIndex].trim()) : 0;
+                    const cpdFee = data[cpdFeeIndex] ? parseInt(data[cpdFeeIndex].trim()) : 0;
+                    const facebookLink = data[facebookLinkIndex] ? data[facebookLinkIndex].trim() : '';
+                    const instructor = data[instructorIndex] ? data[instructorIndex].trim() : '';
+                    const cpdPoints = data[cpdPointsIndex] ? parseInt(data[cpdPointsIndex].trim()) : 0;
+
+                    courses[id] = {
+                        name: name, date: date, currency: "دينار أردني", basePrice: basePrice,
+                        cpdFee: cpdFee, facebookLink: facebookLink, instructor: instructor, cpdPoints: cpdPoints
+                    };
+                }
+            }
+            return courses;
+        }
+
+        function populateCourseDropdown() {
+            const selector = document.getElementById('course-selector');
+            selector.innerHTML = '<option value="" disabled selected>-- اختر فعالية تدريبية --</option>';
+            let courseCount = 0;
+            for (const id in coursesDB) {
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = coursesDB[id].name;
+                selector.appendChild(option);
+                courseCount++;
+            }
+            if (courseCount === 0) {
+                 selector.innerHTML = '<option value="" disabled selected>-- لا توجد فعاليات تدريبية متاحة حالياً --</option>';
+            }
+        }
+
+        function onCourseSelect() {
+            const selector = document.getElementById('course-selector');
+            const courseId = selector.value;
+            const fieldsWrapper = document.getElementById('registration-fields');
+            const detailsDisplay = document.getElementById('course-details-display');
+
+            if (courseId && coursesDB[courseId]) {
+                currentCourse = coursesDB[courseId];
+                loadCourseData(currentCourse);
+                fieldsWrapper.style.display = 'block';
+            } else {
+                fieldsWrapper.style.display = 'none';
+                // The placeholder text has been removed as requested
+                detailsDisplay.innerHTML = '';
+            }
+        }
+
+        function loadCourseData(course) {
+            let detailsHTML = `نموذج التسجيل في فعالية تدريبية <strong>${course.name}</strong><br><small>(${course.date})</small>`;
+            if (course.instructor) {
+                 detailsHTML += `<span class="instructor-name"><i class="fas fa-chalkboard-teacher me-1"></i> المدرب: ${course.instructor}</span>`;
+            }
+            if (course.cpdPoints > 0) {
+                detailsHTML += `<span class="cpd-points-display"><i class="fas fa-award me-1"></i> ${course.cpdPoints} نقطة CPD معتمدة</span>`;
+            }
+            if (course.facebookLink && course.facebookLink.startsWith('http')) {
+                detailsHTML += `<a href="${course.facebookLink}" target="_blank" class="brand-green mt-1 d-block"><i class="fab fa-facebook me-2"></i> مشاهدة تفاصيل الفعالية التدريبية على فيسبوك</a>`;
+            }
+            document.getElementById('course-details-display').innerHTML = detailsHTML;
+            document.getElementById('total-fee').innerText = `${course.basePrice} ${course.currency}`;
+            document.getElementById('cpd-fee-display').innerText = course.cpdFee;
+            document.getElementById('course-id-input').value = course.name;
+            document.getElementById('cpd').value = 'لا';
+            toggleCPDFields('لا');
+        }
+
+        function toggleCPDFields(value) {
+            const cpdSection = document.getElementById('cpd-fields');
+            const totalFee = document.getElementById('total-fee');
+            if (value === 'نعم' && currentCourse) {
+                cpdSection.style.display = 'block';
+                totalFee.innerText = `${currentCourse.basePrice + currentCourse.cpdFee} ${currentCourse.currency}`;
+            } else if(currentCourse) {
+                cpdSection.style.display = 'none';
+                totalFee.innerText = `${currentCourse.basePrice} ${currentCourse.currency}`;
+            }
+        }
+
+        function toggleOtherNationality(value) {
+            const otherField = document.getElementById('other-nationality-field');
+            otherField.style.display = (value === 'أخرى') ? 'block' : 'none';
+        }
+
+        function validateForm() {
+             const fullNameAr = document.getElementById('fullNameAr').value.trim();
+             const fullNameEn = document.getElementById('fullNameEn').value.trim();
+             const email = document.getElementById('email').value.trim();
+             const countryCodeInput = document.getElementById('country-code-search').value;
+             const countryCodeValue = document.getElementById('country-code-value').value;
+             const phoneNumber = document.getElementById('phone-number').value.trim();
+             const terms = document.getElementById('terms').checked;
+             const nationality = document.getElementById('nationality').value;
+             const otherNationality = document.getElementById('other-nationality-field').querySelector('input').value.trim();
+             const cpdRequest = document.getElementById('cpd').value;
+             const nationalId = document.getElementById('nationalId').value.trim();
+             const licenseNo = document.getElementById('licenseNo').value.trim();
+
+
+             if (!/^[\u0600-\u06FF\s]+$/.test(fullNameAr)) {
+                 alert('الاسم بالعربية يجب أن يحتوي على أحرف عربية فقط.');
+                 document.getElementById('fullNameAr').focus();
+                 return false;
+             }
+
+             if (!/^[a-zA-Z\s]+$/.test(fullNameEn)) {
+                 alert('The English name should contain only English letters.');
+                 document.getElementById('fullNameEn').focus();
+                 return false;
+             }
+
+             if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+                 alert('يرجى إدخال بريد إلكتروني صحيح.');
+                 document.getElementById('email').focus();
+                 return false;
+             }
+
+             if (!countries.some(c => `${c.name} (${c.code})` === countryCodeInput.trim() )) {
+                  alert('يرجى اختيار رمز بلد صحيح من القائمة.');
+                  document.getElementById('country-code-search').focus();
+                  return false;
+             }
+
+             if (!/^[1-9][0-9]{6,14}$/.test(phoneNumber)) {
+                 alert('يرجى إدخال رقم هاتف محلي صحيح (بدون الصفر في البداية، مثل 79xxxxxxx).');
+                 document.getElementById('phone-number').focus();
+                 return false;
+             }
+
+             if (!nationality) {
+                  alert('يرجى اختيار الجنسية.');
+                  document.getElementById('nationality').focus();
+                  return false;
+             }
+
+             if (nationality === 'أخرى' && !otherNationality) {
+                 alert('يرجى تحديد بلد الجنسية.');
+                 document.getElementById('other-nationality-field').querySelector('input').focus();
+                 return false;
+             }
+
+             if (cpdRequest === 'نعم' && (!nationalId || !licenseNo)) {
+                 alert('عند طلب شهادة CPD، يجب إدخال الرقم الوطني ورقم المزاولة.');
+                 if (!nationalId) document.getElementById('nationalId').focus();
+                 else document.getElementById('licenseNo').focus();
+                 return false;
+             }
+
+
+             if (!terms) {
+                 alert('يجب الموافقة على التعهد والإقرار لإكمال التسجيل.');
+                 document.getElementById('terms').focus();
+                 return false;
+             }
+
+             return true;
+        }
+
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            const form = e.target;
+            const data = new FormData(form);
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzo7yp-5tMCXf-WFbfJjh3gnNHLXnO-2sDAGQF8ZVysn4sKUUTTVotZvK81SSJ6dkcp/exec';
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            const countryCode = document.getElementById('country-code-value').value;
+            let phoneNumber = document.getElementById('phone-number').value.trim();
+            const fullPhoneNumber = countryCode + phoneNumber;
+            data.set('WhatsApp', fullPhoneNumber);
+            data.delete('CountryCode');
+            data.delete('Phone Number');
+
+
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري إرسال بياناتك...';
+
+            fetch(scriptURL, { method: 'POST', body: data })
+            .then(response => {
+                console.log('Success!', response);
+                const userEmail = document.getElementById('email').value;
+
+                const successAlert = document.createElement('div');
+                successAlert.className = 'alert alert-success';
+                successAlert.setAttribute('role', 'status');
+                successAlert.innerHTML = `
+                    <h4 class="alert-heading"><i class="fas fa-check-circle"></i> تم إرسال بياناتك بنجاح!</h4>
+                    <p>شكرًا لك على التسجيل في فعالية تدريبية <strong>${currentCourse.name}</strong>.</p>
+                    <p class="mb-0"><strong>تم إرسال بريد إلكتروني تأكيدي إلى ${userEmail}.</strong> يرجى فحص صندوق الوارد والبريد المزعج (Spam) للحصول على تفاصيل التسجيل وطرق الدفع.</p>
+                `;
+
+                document.getElementById('registration-section').style.display = 'none';
+                const paymentSection = document.getElementById('payment-section');
+                paymentSection.style.display = 'block';
+                 paymentSection.insertBefore(successAlert, paymentSection.firstChild);
+                window.scrollTo(0, 0);
+            })
+            .catch(error => {
+                console.error('Fetch Error!', error.message);
+                submitButton.disabled = false;
+                submitButton.textContent = 'أرسل بياناتي واعرض طرق الدفع';
+                alert('حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى.');
+            });
+        });
+
+    </script>
 </body>
 </html>
