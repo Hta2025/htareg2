@@ -253,7 +253,7 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="fullNameEn" class="form-label">Full Name (English)</label>
                                         <input type="text" class="form-control" id="fullNameEn" name="Full Name (English)" required aria-describedby="nameEn-help">
-                                        <div id="nameEn-help" class="form-text">Should contain only English letters.</div>
+                                        <div id="nameEn-help" class="form-text">يجب أن يحتوي على أحرف إنجليزية فقط.</div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -348,7 +348,7 @@
                                     <label class="form-label fw-bold">التعهد والإقرار:</label>
                                     <div class="border p-3" style="max-height: 200px; overflow-y: auto; background-color: #f8f9fa; font-size: 0.9rem;">
                                         <p>أتعهد أنا، مدخل البيانات في هذا النموذج الإلكتروني، بأن جميع المعلومات التي قمت بإدخالها صحيحة ودقيقة.</p>
-                                        <p>كما أقرّ بأنني على دراية تامة بطبيعة الفعالية التدريبية التي أسجل فيها، وما قد تتضمنه – إن وُجد – من تطبيقات عملية على نفسي أو على الزملاء المشاركين، أو تداخلات ضمن التمارين التدريبية التطبيقية.</p>
+                                        <p>كما أقرّ بأنني على دراية تامة بطبيعة الفعالية التدريبية التي أسجل فيها، وما قد تتضمنه - إن وُجد - من تطبيقات عملية أو تداخلات ضمن التمارين التدريبية التي قد تشملني أو الزملاء المشاركين.</p>
                                         <p>وأتعهد بما يلي:</p>
                                         <ol>
                                             <li>الحفاظ على خصوصية الفعالية التدريبية واحترام خصوصية جميع المشاركين والزملاء.</li>
@@ -471,78 +471,32 @@
         let coursesDB = {};
         let currentCourse = null;
 
+        // --- تم تحديث قائمة الدول حسب الطلب ---
         const countries = [
-             { name: 'أفغانستان', code: '+93' }, { name: 'ألبانيا', code: '+355' }, { name: 'الجزائر', code: '+213' },
-             { name: ' Samoa الأمريكية', code: '+1684' }, { name: 'أندورا', code: '+376' }, { name: 'أنغولا', code: '+244' },
-             { name: 'أنغويلا', code: '+1264' }, { name: 'أنتاركتيكا', code: '+672' }, { name: 'أنتيغوا وباربودا', code: '+1268' },
-             { name: 'الأرجنتين', code: '+54' }, { name: 'أرمينيا', code: '+374' }, { name: 'أروبا', code: '+297' },
-             { name: 'أستراليا', code: '+61' }, { name: 'النمسا', code: '+43' }, { name: 'أذربيجان', code: '+994' },
-             { name: 'البهاما', code: '+1242' }, { name: 'البحرين', code: '+973' }, { name: 'بنغلاديش', code: '+880' },
-             { name: 'بربادوس', code: '+1246' }, { name: 'بيلاروسيا', code: '+375' }, { name: 'بلجيكا', code: '+32' },
-             { name: 'بليز', code: '+501' }, { name: 'بنين', code: '+229' }, { name: 'برمودا', code: '+1441' },
-             { name: 'بوتان', code: '+975' }, { name: 'بوليفيا', code: '+591' }, { name: 'البوسنة والهرسك', code: '+387' },
-             { name: 'بوتسوانا', code: '+267' }, { name: 'البرازيل', code: '+55' }, { name: 'إقليم المحيط الهندي البريطاني', code: '+246' },
-             { name: 'بروناي دار السلام', code: '+673' }, { name: 'بلغاريا', code: '+359' }, { name: 'بوركينا فاسو', code: '+226' },
-             { name: 'بوروندي', code: '+257' }, { name: 'كمبوديا', code: '+855' }, { name: 'الكاميرون', code: '+237' },
-             { name: 'كندا', code: '+1' }, { name: 'الرأس الأخضر', code: '+238' }, { name: 'جزر كايمان', code: '+1345' },
-             { name: 'جمهورية أفريقيا الوسطى', code: '+236' }, { name: 'تشاد', code: '+235' }, { name: 'تشيلي', code: '+56' },
-             { name: 'الصين', code: '+86' }, { name: 'جزيرة عيد الميلاد', code: '+61' }, { name: 'جزر كوكوس (كيلينغ)', code: '+672' },
-             { name: 'كولومبيا', code: '+57' }, { name: 'جزر القمر', code: '+269' }, { name: 'جزر كوك', code: '+682' },
-             { name: 'كوستاريكا', code: '+506' }, { name: 'ساحل العاج', code: '+225' }, { name: 'كرواتيا', code: '+385' },
-             { name: 'كوبا', code: '+53' }, { name: 'قبرص', code: '+357' }, { name: 'جمهورية التشيك', code: '+420' },
-             { name: 'جمهورية الكونغو الديمقراطية', code: '+243' }, { name: 'الدنمارك', code: '+45' }, { name: 'جيبوتي', code: '+253' },
-             { name: 'دومينيكا', code: '+1767' }, { name: 'جمهورية الدومينيكان', code: '+1809' }, { name: 'الإكوادور', code: '+593' },
-             { name: 'مصر', code: '+20' }, { name: 'السلفادور', code: '+503' }, { name: 'غينيا الاستوائية', code: '+240' },
-             { name: 'إريتريا', code: '+291' }, { name: 'إستونيا', code: '+372' }, { name: 'إثيوبيا', code: '+251' },
-             { name: 'جزر فوكلاند (مالفيناس)', code: '+500' }, { name: 'جزر فارو', code: '+298' }, { name: 'فيجي', code: '+679' },
-             { name: 'فنلندا', code: '+358' }, { name: 'فرنسا', code: '+33' }, { name: 'غيانا الفرنسية', code: '+594' },
-             { name: 'بولينيزيا الفرنسية', code: '+689' }, { name: 'الغابون', code: '+241' }, { name: 'غامبيا', code: '+220' },
-             { name: 'جورجيا', code: '+995' }, { name: 'ألمانيا', code: '+49' }, { name: 'غانا', code: '+233' },
-             { name: 'جبل طارق', code: '+350' }, { name: 'اليونان', code: '+30' }, { name: 'غرينلاند', code: '+299' },
-             { name: 'غرينادا', code: '+1473' }, { name: 'غوادلوب', code: '+590' }, { name: 'غوام', code: '+1671' },
-             { name: 'غواتيمالا', code: '+502' }, { name: 'غيرنزي', code: '+44' }, { name: 'غينيا', code: '+224' },
-             { name: 'غينيا بيساو', code: '+245' }, { name: 'غيانا', code: '+592' }, { name: 'هايتي', code: '+509' },
-             { name: 'الفاتيكان', code: '+379' }, { name: 'هندوراس', code: '+504' }, { name: 'هونغ كونغ', code: '+852' },
-             { name: 'المجر', code: '+36' }, { name: 'آيسلندا', code: '+354' }, { name: 'الهند', code: '+91' },
-             { name: 'إندونيسيا', code: '+62' }, { name: 'إيران', code: '+98' }, { name: 'العراق', code: '+964' },
-             { name: 'أيرلندا', code: '+353' }, { name: 'جزيرة مان', code: '+44' }, { name: 'إسرائيل', code: '+972' },
-             { name: 'إيطاليا', code: '+39' }, { name: 'جامايكا', code: '+1876' }, { name: 'اليابان', code: '+81' },
-             { name: 'جيرزي', code: '+44' }, { name: 'الأردن', code: '+962' }, { name: 'كازاخستان', code: '+7' },
-             { name: 'كينيا', code: '+254' }, { name: 'كيريباتي', code: '+686' }, { name: 'الكويت', code: '+965' },
-             { name: 'قيرغيزستان', code: '+996' }, { name: 'لاوس', code: '+856' }, { name: 'لاتفيا', code: '+371' },
-             { name: 'لبنان', code: '+961' }, { name: 'ليسوتو', code: '+266' }, { name: 'ليبيريا', code: '+231' },
-             { name: 'ليبيا', code: '+218' }, { name: 'ليختنشتاين', code: '+423' }, { name: 'ليتوانيا', code: '+370' },
-             { name: 'لوكسمبورغ', code: '+352' }, { name: 'ماكاو', code: '+853' }, { name: 'مقدونيا الشمالية', code: '+389' },
-             { name: 'مدغشقر', code: '+261' }, { name: 'مالاوي', code: '+265' }, { name: 'ماليزيا', code: '+60' },
-             { name: 'المالديف', code: '+960' }, { name: 'مالي', code: '+223' }, { name: 'مالطا', code: '+356' },
-             { name: 'جزر مارشال', code: '+692' }, { name: 'Martinique', code: '+596' }, { name: 'موريتانيا', code: '+222' },
-             { name: 'موريشيوس', code: '+230' }, { name: 'مايوت', code: '+262' }, { name: 'المكسيك', code: '+52' },
-             { name: 'ولايات ميكرونيسيا المتحدة', code: '+691' }, { name: 'مولدوفا', code: '+373' }, { name: 'موناكو', code: '+377' },
-             { name: 'منغوليا', code: '+976' }, { name: 'منغوليا', code: '+992' }, { name: 'بالاو', code: '+680' }, { name: 'فلسطين', code: '+970' },
-             { name: 'بنما', code: '+507' }, { name: 'بابوا غينيا الجديدة', code: '+675' }, { name: 'باراغواي', code: '+675' },
-             { name: 'بيرو', code: '+51' }, { name: 'الفلبين', code: '+63' }, { name: 'جزر بيتكيرن', code: '+64' },
-             { name: 'بولندا', code: '+48' }, { name: 'البرتغال', code: '+351' }, { name: 'بورتوريكو', code: '+1787' },
-             { name: 'قطر', code: '+974' }, { name: 'رومانيا', code: '+40' }, { name: 'روسيا', code: '+7' },
-             { name: 'رواندا', code: '+250' }, { name: 'رونيون', code: '+262' }, { name: 'سان بارتيليمي', code: '+590' },
-             { name: 'سانت هيلينا', code: '+290' }, { name: 'سانت كيتس ونيفيس', code: '+1869' }, { name: 'سانت كيتس ونيفيس', code: '+1758' },
-             { name: 'سانت مارتن (الجزء الفرنسي)', code: '+590' }, { name: 'سان بيير وميكلون', code: '+508' },
-             { name: 'سانت فنسنت والغرينادين', code: '+1784' }, { name: 'ساموا الأمريكية', code: '+684' },
-             { name: 'سان مارينو', code: '+378' }, { name: 'ساو تومي وبرينسيب', code: '+239' }, { name: 'السعودية', code: '+966' }, { name: 'صربيا', code: '+381' }, { name: 'سينت مارتن (الجزء الهولندي)', code: '+1721' },
-             { name: 'سلوفاكيا', code: '+421' }, { name: 'سلوفينيا', code: '+386' }, { name: 'جزر سليمان', code: '+677' },
-             { name: 'الصومال', code: '+252' }, { name: 'جنوب أفريقيا', code: '+27' }, { name: 'كوريا الجنوبية', code: '+82' },
-             { name: 'جنوب السودان', code: '+211' }, { name: 'إسبانيا', code: '+34' }, { name: 'سريلانكا', code: '+94' },
-             { name: 'السودان', code: '+249' }, { name: 'سورينام', code: '+597' }, { name: 'سفالبارد وجان ماين', code: '+47' },
-             { name: 'إسواتيني', code: '+268' }, { name: 'تايوان', code: '+886' }, { name: 'طاجيكستان', code: '+992' },
-             { name: 'تنزانيا', code: '+255' }, { name: 'تايلاند', code: '+66' }, { name: 'تيمور الشرقية', code: '+670' },
-             { name: 'توغو', code: '+228' }, { name: 'توكلاو', code: '+690' }, { name: 'تونغا', code: '+676' },
-             { name: 'تونس', code: '+216' }, { name: 'تركيا', code: '+90' }, { name: 'تركمانستان', code: '+993' },
-             { name: 'جزر توركس وكايكوس', code: '+1649' }, { name: 'توفالو', code: '+688' }, { name: 'أوغندا', code: '+256' },
-             { name: 'أوكرانيا', code: '+380' }, { name: 'الإمارات العربية المتحدة', code: '+971' }, { name: 'المملكة المتحدة', code: '+44' },
-             { name: 'الولايات المتحدة', code: '+1' }, { name: 'أوروغواي', code: '+598' }, { name: 'أوزبكستان', code: '+998' },
-             { name: 'فانواتو', code: '+678' }, { name: 'فنزويلا', code: '+58' }, { name: 'فيتنام', code: '+84' },
-             { name: 'جزر فيرجن البريطانية', code: '+1284' }, { name: 'جزر فيرجن الأمريكية', code: '+1340' },
-             { name: 'واليس وفوتونا', code: '+681' }, { name: 'اليمن', code: '+967' }, { name: 'زامبيا', code: '+260' },
-             { name: 'زيمبابوي', code: '+263' }
+            { name: 'الأردن', code: '+962' },
+            { name: 'الإمارات العربية المتحدة', code: '+971' },
+            { name: 'البحرين', code: '+973' },
+            { name: 'الجزائر', code: '+213' },
+            { name: 'السعودية', code: '+966' },
+            { name: 'السودان', code: '+249' },
+            { name: 'الصومال', code: '+252' },
+            { name: 'العراق', code: '+964' },
+            { name: 'عُمان', code: '+968' },
+            { name: 'فلسطين', code: '+970' },
+            { name: 'قطر', code: '+974' },
+            { name: 'الكويت', code: '+965' },
+            { name: 'لبنان', code: '+961' },
+            { name: 'ليبيا', code: '+218' },
+            { name: 'مصر', code: '+20' },
+            { name: 'المغرب', code: '+212' },
+            { name: 'اليمن', code: '+967' },
+            { name: 'موريتانيا', code: '+222' },
+            { name: 'تونس', code: '+216' },
+            { name: 'جزر القمر', code: '+269' },
+            { name: 'جيبوتي', code: '+253' },
+            { name: 'سوريا', code: '+963' },
+            { name: 'تركيا', code: '+90' },
+            { name: 'إسرائيل', code: '+972' } // تمت إضافتها في النهاية حسب الطلب
         ];
 
         // --- Event Listeners Initialization ---
@@ -762,6 +716,7 @@
             const licenseNo = document.getElementById('licenseNo').value.trim();
 
             if (!/^[\u0600-\u06FF\s]+$/.test(fullNameAr)) errors.push('الاسم بالعربية يجب أن يحتوي على أحرف عربية فقط.');
+            // --- تم إعادة رسالة الخطأ إلى الإنجليزية حسب الطلب ---
             if (!/^[a-zA-Z\s]+$/.test(fullNameEn)) errors.push('The English name should contain only English letters.');
             if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) errors.push('يرجى إدخال بريد إلكتروني صحيح.');
             if (!countries.some(c => `${c.name} (${c.code})` === countryCodeInput.trim())) errors.push('يرجى اختيار رمز بلد صحيح من القائمة.');
@@ -786,7 +741,6 @@
 
             const form = e.target;
             const data = new FormData(form);
-            // !!! تم تحديث الرابط هنا !!!
             const scriptURL = 'https://script.google.com/macros/s/AKfycbzOGhFt4kObXlGdGVcVIgPlyFOtvtutfPSvPNCK0fqn8RTwqeSFhPZwQpmAembejZLE/exec'; 
             const submitButton = form.querySelector('button[type="submit"]');
 
@@ -807,16 +761,29 @@
             })
             .then(result => {
                 console.log('Success!', result);
-                const userEmail = document.getElementById('email').value;
                 const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                document.getElementById('successMessage').textContent = `شكرًا لك على التسجيل في فعالية تدريبية ${currentCourse.name}. تم إرسال بريد إلكتروني تأكيدي إلى ${userEmail}.`;
+                
+                // === تحديث رسالة النجاح ===
+                const userName = document.getElementById('fullNameAr').value.trim();
+                const courseName = currentCourse.name;
+                const totalFee = document.getElementById('total-fee').innerText;
+                
+                document.getElementById('successMessage').innerHTML = `
+                    <p>عزيزي/عزيزتي <strong>${userName}</strong>،</p>
+                    <p>شكراً جزيلاً على تسجيلك في فعالية <strong>${courseName}</strong>. نحن سعداء بانضمامك إلينا!</p>
+                    <p>تم إرسال بريد إلكتروني تأكيدي إلى <strong>${document.getElementById('email').value}</strong> يحتوي على جميع التفاصيل وخطوات الدفع.</p>
+                    <p><strong>المبلغ الإجمالي:</strong> ${totalFee}</p>
+                    <p>يرجى إكمال عملية الدفع لإتمام حجز مقعدك. شكراً لثقتكم بأكاديمية أبقراط.</p>
+                `;
+                // === نهاية التحديث ===
+
                 successModal.show();
 
                 setTimeout(() => {
                     document.getElementById('registration-section').style.display = 'none';
                     document.getElementById('payment-section').style.display = 'block';
                     window.scrollTo(0, 0);
-                }, 1500);
+                }, 2000);
 
             })
             .catch(error => {
