@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة تسجيل الفعاليات التدريبية لأكاديمية أبقراط للتدريب</title>
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- CSS Styles -->
     <style>
         .brand-green { color: #0f5132; }
         .brand-green-bg { background-color: #198754; }
@@ -87,37 +92,42 @@
         .input-group {
             direction: ltr;
         }
-        #course-selector option i {
-             margin-left: 5px;
-             margin-right: 0;
-        }
         /* Custom Navbar Style */
         .navbar-custom-bg {
-            /* Subtle gradient for visual comfort */
             background: linear-gradient(to left, #7c2bc9, #6a0dad);
         }
-        /* Style for the nav links to be "dark white" */
         .navbar-custom-bg .navbar-nav .nav-link {
-            color: #f8f9fa; /* A light, "dark white" color */
-            font-weight: 500; /* Make it slightly bolder for readability */
+            color: #f8f9fa;
+            font-weight: 500;
         }
         .navbar-custom-bg .navbar-nav .nav-link:hover {
-            color: #ffffff; /* Make it brighter on hover for better feedback */
+            color: #ffffff;
         }
-        /* Style for the brand name separator */
         .brand-name-en {
             margin-right: 0.5rem;
         }
 
-        /* === الإبداع يبدأ من هنا: تصميم العنوان الجديد === */
+        /* === تحسينات تصميم العنوان === */
         .page-title-wrapper {
-            /* تم التعديل هنا: تم توسيط العنوان */
             text-align: center;
-            margin-bottom: 1.5rem;
-            /* حركة الظهور */
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .page-title-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #6a0dad, #198754);
+            border-radius: 2px;
         }
 
         @keyframes fadeInUp {
@@ -128,27 +138,61 @@
         }
 
         .page-title {
-            font-size: 1.75rem; /* حجم خط مناسب */
-            font-weight: 700; /* خط عريض */
-            margin-bottom: 0.25rem;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
             line-height: 1.3;
-            color: #212529; /* لون أسود داكن */
+            color: #212529;
         }
 
         .page-subtitle {
-            font-size: 1.25rem; 
-            /* تم التعديل هنا: تم تغيير لون اسم الأكاديمية إلى بنفسجي غامق */
-            color: #6a0dad; /* لون العلامة التجارية البنفسجي */
+            font-size: 1.3rem;
+            color: #6a0dad;
             margin-bottom: 0;
             font-weight: 500;
         }
-        /* تم حذف كلاس .title-underline من هنا لأنه لم يعد مستخدمًا */
-        /* === نهاية التصميم الإبداعي === */
+        /* === نهاية تحسينات التصميم === */
 
     </style>
 </head>
 <body>
 
+    <!-- نوافذ منبثقة مخصصة للأخطار والنجاح -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>خطأ في البيانات</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="errorMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel"><i class="fas fa-check-circle me-2"></i>تم التسجيل بنجاح!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="successMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">متابعة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HTML Body Content -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-bg">
         <div class="container">
             <a class="navbar-brand" href="index.html">
@@ -175,14 +219,11 @@
                     <div class="card-body p-4 p-md-5">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div>
-                                <!-- === تم استبدال العنوان القديم بالتصميم الجديد المبدع === -->
                                 <div class="page-title-wrapper">
                                     <h1 class="page-title">
-                                        <!-- تم التعديل هنا: تم تغيير لون كلمة "منصة" إلى الأسود -->
                                         <span style="color: black;">منصة</span> تسجيل الفعاليات التدريبية
                                     </h1>
                                     <p class="page-subtitle">أكاديمية أبقراط للتدريب</p>
-                                    <!-- تم التعديل هنا: تم حذف الخط الزخرفي -->
                                 </div>
                                 <p class="text-muted" id="course-details-display"></p>
                             </div>
@@ -341,7 +382,6 @@
         </div>
     </section>
 
-    <!-- !!! تمت استعادة قسم الدفع والتذييل !!! -->
     <section id="payment-section" class="container my-5" style="display:none;">
         <div class="text-center mb-5">
             <img src="hta-logo.png" alt="شعار أكاديمية أبقراط" class="hta-logo mb-3" loading="lazy">
@@ -419,12 +459,15 @@
         </div>
     </footer>
 
-
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- ======================================================================= -->
+    <!-- ========================= JAVASCRIPT LOGIC ========================= -->
+    <!-- ======================================================================= -->
     <script>
+        // --- Global Variables ---
         const CSV_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQghOdUAW_v2svTLHGwZWpWU2x7tdsE24m8LPOGKFZNlef2q91JD88aEoMF5psdDbJzYZV4TmhoWig/pub?gid=0&single=true&output=csv";
-
         let coursesDB = {};
         let currentCourse = null;
 
@@ -502,19 +545,27 @@
              { name: 'زيمبابوي', code: '+263' }
         ];
 
-        // --- باقي كود الجافاسكريبت ---
+        // --- Event Listeners Initialization ---
         document.addEventListener("DOMContentLoaded", function() {
-            initCountryCodeDropdown(); // تهيئة قائمة الدول
+            initCountryCodeDropdown();
+            loadCourses();
 
             const phoneInput = document.getElementById('phone-number');
             phoneInput.addEventListener('input', function(e) {
-                let value = e.target.value;
-                if (value.startsWith('0')) {
-                    e.target.value = value.substring(1);
+                if (e.target.value.startsWith('0')) {
+                    e.target.value = e.target.value.substring(1);
                 }
             });
+        });
 
+        // --- Functions for Course Management ---
+        function loadCourses() {
             const selector = document.getElementById('course-selector');
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.className = 'text-center my-3';
+            loadingIndicator.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">جاري التحميل...</span></div>';
+            selector.parentNode.appendChild(loadingIndicator);
+
             fetch(CSV_SHEET_URL).then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.text();
@@ -522,132 +573,23 @@
                 coursesDB = parseCSV(csvText);
                 populateCourseDropdown();
                 selector.disabled = false;
+                loadingIndicator.remove();
             }).catch(error => {
                 console.error('Error fetching courses:', error);
                 selector.innerHTML = '<option value="" disabled selected>فشل تحميل الفعاليات التدريبية!</option>';
                 selector.disabled = true;
-                 const alertDiv = document.createElement('div');
-                 alertDiv.className = 'alert alert-danger mt-3';
-                 alertDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> عذرًا، حدث خطأ أثناء تحميل الفعاليات التدريبية. يرجى تحديث الصفحة أو المحاولة مرة أخرى لاحقًا.`;
-                 selector.parentNode.appendChild(alertDiv);
+                loadingIndicator.remove();
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'alert alert-danger mt-3';
+                errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> عذرًا، حدث خطأ أثناء تحميل الفعاليات التدريبية. يرجى تحديث الصفحة أو المحاولة مرة أخرى لاحقًا.`;
+                selector.parentNode.appendChild(errorDiv);
             });
-        });
-
-
-        function initCountryCodeDropdown() {
-             const searchInput = document.getElementById('country-code-search');
-             const hiddenInput = document.getElementById('country-code-value');
-             const listElement = document.getElementById('country-list');
-             let activeOptionIndex = -1;
-
-             function populateList() {
-                 countries.forEach((country, index) => {
-                     const li = document.createElement('li');
-                     li.textContent = `${country.name} (${country.code})`;
-                     li.dataset.code = country.code;
-                     li.dataset.name = country.name;
-                     li.setAttribute('role', 'option');
-                     li.id = `country-option-${index}`;
-                     listElement.appendChild(li);
-                 });
-             }
-
-             function setDefaultCountry() {
-                 const defaultCountry = countries.find(c => c.code === '+962');
-                 if (defaultCountry) {
-                     searchInput.value = `${defaultCountry.name} (${defaultCountry.code})`;
-                     hiddenInput.value = defaultCountry.code;
-                 }
-             }
-
-             function filterList() {
-                 const searchTerm = searchInput.value.toLowerCase().replace(/[()+-\s]/g, '');
-                 const items = listElement.getElementsByTagName('li');
-                 let hasResults = false;
-                 activeOptionIndex = -1;
-
-                 for (const item of items) {
-                     const itemName = item.dataset.name.toLowerCase();
-                     const itemCode = item.dataset.code.replace(/[+]/g, '');
-                     if (itemName.includes(searchTerm) || itemCode.includes(searchTerm)) {
-                         item.style.display = 'block';
-                         hasResults = true;
-                     } else {
-                         item.style.display = 'none';
-                     }
-                 }
-                 listElement.style.display = hasResults ? 'block' : 'none';
-                 searchInput.setAttribute('aria-expanded', hasResults);
-             }
-
-             function selectCountry(e) {
-                 if (e.target && e.target.tagName === 'LI') {
-                     const code = e.target.dataset.code;
-                     const name = e.target.dataset.name;
-                     searchInput.value = `${name} (${code})`;
-                     hiddenInput.value = code;
-                     listElement.style.display = 'none';
-                     searchInput.setAttribute('aria-expanded', 'false');
-                 }
-             }
-             
-             function showList() {
-                 const items = listElement.getElementsByTagName('li');
-                 for (const item of items) {
-                     item.style.display = 'block';
-                 }
-                 listElement.style.display = 'block';
-                 searchInput.setAttribute('aria-expanded', 'true');
-             }
-
-             function closeListIfClickedOutside(e) {
-                 if (!e.target.closest('.custom-country-code-dropdown')) {
-                     listElement.style.display = 'none';
-                     searchInput.setAttribute('aria-expanded', 'false');
-                 }
-             }
-
-             // Keyboard navigation
-             searchInput.addEventListener('keydown', function(e) {
-                 const visibleOptions = Array.from(listElement.querySelectorAll('li[style="display: block;"], li:not([style])'));
-                 if (e.key === 'ArrowDown') {
-                     e.preventDefault();
-                     if (listElement.style.display === 'none') showList();
-                     activeOptionIndex = (activeOptionIndex + 1) % visibleOptions.length;
-                     visibleOptions[activeOptionIndex].focus();
-                 } else if (e.key === 'ArrowUp') {
-                     e.preventDefault();
-                     if (listElement.style.display === 'none') showList();
-                     activeOptionIndex = (activeOptionIndex - 1 + visibleOptions.length) % visibleOptions.length;
-                     visibleOptions[activeOptionIndex].focus();
-                 } else if (e.key === 'Enter' || e.key === 'Tab') {
-                     if (document.activeElement.role === 'option') {
-                         e.preventDefault();
-                         selectCountry({ target: document.activeElement });
-                         searchInput.focus();
-                     }
-                 } else if (e.key === 'Escape') {
-                     listElement.style.display = 'none';
-                     searchInput.setAttribute('aria-expanded', 'false');
-                 }
-             });
-
-             populateList();
-             setDefaultCountry();
-
-             searchInput.addEventListener('input', filterList);
-             searchInput.addEventListener('focus', showList);
-             listElement.addEventListener('click', selectCountry);
-             document.addEventListener('click', closeListIfClickedOutside);
         }
-
 
         function parseCSV(text) {
             const courses = {};
             const lines = text.split(/\r?\n/);
-
             if (lines.length < 2) return {};
-
             const headers = lines[0].split(',').map(h => h.trim());
             const idIndex = headers.indexOf('id');
             const nameIndex = headers.indexOf('name');
@@ -662,20 +604,17 @@
             for (let i = 1; i < lines.length; i++) {
                 if (!lines[i]) continue;
                 const data = lines[i].split(',');
-
-                if (data.length > statusIndex && data[statusIndex] && data[statusIndex] && data[statusIndex].trim().toLowerCase() === 'active') {
+                if (data.length > statusIndex && data[statusIndex].trim().toLowerCase() === 'active') {
                     const id = data[idIndex] ? data[idIndex].trim() : `course_${i}`;
-                    const name = data[nameIndex] ? data[nameIndex].trim() : 'N/A';
-                    const date = data[dateIndex] ? data[dateIndex].trim() : 'N/A';
-                    const basePrice = data[basePriceIndex] ? parseInt(data[basePriceIndex].trim()) : 0;
-                    const cpdFee = data[cpdFeeIndex] ? parseInt(data[cpdFeeIndex].trim()) : 0;
-                    const facebookLink = data[facebookLinkIndex] ? data[facebookLinkIndex].trim() : '';
-                    const instructor = data[instructorIndex] ? data[instructorIndex].trim() : '';
-                    const cpdPoints = data[cpdPointsIndex] ? parseInt(data[cpdPointsIndex].trim()) : 0;
-
                     courses[id] = {
-                        name: name, date: date, currency: "دينار أردني", basePrice: basePrice,
-                        cpdFee: cpdFee, facebookLink: facebookLink, instructor: instructor, cpdPoints: cpdPoints
+                        name: data[nameIndex]?.trim() || 'N/A',
+                        date: data[dateIndex]?.trim() || 'N/A',
+                        currency: "دينار أردني",
+                        basePrice: parseInt(data[basePriceIndex]?.trim()) || 0,
+                        cpdFee: parseInt(data[cpdFeeIndex]?.trim()) || 0,
+                        facebookLink: data[facebookLinkIndex]?.trim() || '',
+                        instructor: data[instructorIndex]?.trim() || '',
+                        cpdPoints: parseInt(data[cpdPointsIndex]?.trim()) || 0
                     };
                 }
             }
@@ -710,19 +649,14 @@
                 fieldsWrapper.style.display = 'block';
             } else {
                 fieldsWrapper.style.display = 'none';
-                // The placeholder text has been removed as requested
                 detailsDisplay.innerHTML = '';
             }
         }
 
         function loadCourseData(course) {
             let detailsHTML = `نموذج التسجيل في فعالية تدريبية <strong>${course.name}</strong><br><small>(${course.date})</small>`;
-            if (course.instructor) {
-                 detailsHTML += `<span class="instructor-name"><i class="fas fa-chalkboard-teacher me-1"></i> المدرب: ${course.instructor}</span>`;
-            }
-            if (course.cpdPoints > 0) {
-                detailsHTML += `<span class="cpd-points-display"><i class="fas fa-award me-1"></i> ${course.cpdPoints} نقطة CPD معتمدة</span>`;
-            }
+            if (course.instructor) detailsHTML += `<span class="instructor-name"><i class="fas fa-chalkboard-teacher me-1"></i> المدرب: ${course.instructor}</span>`;
+            if (course.cpdPoints > 0) detailsHTML += `<span class="cpd-points-display"><i class="fas fa-award me-1"></i> ${course.cpdPoints} نقطة CPD معتمدة</span>`;
             if (course.facebookLink && course.facebookLink.startsWith('http')) {
                 detailsHTML += `<a href="${course.facebookLink}" target="_blank" class="brand-green mt-1 d-block"><i class="fab fa-facebook me-2"></i> مشاهدة تفاصيل الفعالية التدريبية على فيسبوك</a>`;
             }
@@ -734,6 +668,7 @@
             toggleCPDFields('لا');
         }
 
+        // --- Functions for UI Interaction ---
         function toggleCPDFields(value) {
             const cpdSection = document.getElementById('cpd-fields');
             const totalFee = document.getElementById('total-fee');
@@ -751,128 +686,146 @@
             otherField.style.display = (value === 'أخرى') ? 'block' : 'none';
         }
 
+        // --- Functions for Country Code Dropdown ---
+        function initCountryCodeDropdown() {
+            const searchInput = document.getElementById('country-code-search');
+            const hiddenInput = document.getElementById('country-code-value');
+            const listElement = document.getElementById('country-list');
+
+            function setDefaultCountry() {
+                const defaultCountry = countries.find(c => c.code === '+962');
+                if (defaultCountry) {
+                    searchInput.value = `${defaultCountry.name} (${defaultCountry.code})`;
+                    hiddenInput.value = defaultCountry.code;
+                }
+            }
+
+            function filterList() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const items = listElement.getElementsByTagName('li');
+                let hasResults = false;
+                for (const item of items) {
+                    const itemName = item.dataset.name.toLowerCase();
+                    const itemCode = item.dataset.code;
+                    if (itemName.includes(searchTerm) || itemCode.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        hasResults = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                }
+                listElement.style.display = hasResults ? 'block' : 'none';
+            }
+
+            function selectCountry(e) {
+                if (e.target && e.target.tagName === 'LI') {
+                    const code = e.target.dataset.code;
+                    const name = e.target.dataset.name;
+                    searchInput.value = `${name} (${code})`;
+                    hiddenInput.value = code;
+                    listElement.style.display = 'none';
+                }
+            }
+
+            countries.forEach(country => {
+                const li = document.createElement('li');
+                li.textContent = `${country.name} (${country.code})`;
+                li.dataset.code = country.code;
+                li.dataset.name = country.name;
+                listElement.appendChild(li);
+            });
+
+            setDefaultCountry();
+            searchInput.addEventListener('input', filterList);
+            searchInput.addEventListener('focus', () => listElement.style.display = 'block');
+            listElement.addEventListener('click', selectCountry);
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.custom-country-code-dropdown')) {
+                    listElement.style.display = 'none';
+                }
+            });
+        }
+
+        // --- Form Validation and Submission ---
         function validateForm() {
-             const fullNameAr = document.getElementById('fullNameAr').value.trim();
-             const fullNameEn = document.getElementById('fullNameEn').value.trim();
-             const email = document.getElementById('email').value.trim();
-             const countryCodeInput = document.getElementById('country-code-search').value;
-             const countryCodeValue = document.getElementById('country-code-value').value;
-             const phoneNumber = document.getElementById('phone-number').value.trim();
-             const terms = document.getElementById('terms').checked;
-             const nationality = document.getElementById('nationality').value;
-             const otherNationality = document.getElementById('other-nationality-field').querySelector('input').value.trim();
-             const cpdRequest = document.getElementById('cpd').value;
-             const nationalId = document.getElementById('nationalId').value.trim();
-             const licenseNo = document.getElementById('licenseNo').value.trim();
+            const errors = [];
+            const fullNameAr = document.getElementById('fullNameAr').value.trim();
+            const fullNameEn = document.getElementById('fullNameEn').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const countryCodeInput = document.getElementById('country-code-search').value;
+            const phoneNumber = document.getElementById('phone-number').value.trim();
+            const terms = document.getElementById('terms').checked;
+            const nationality = document.getElementById('nationality').value;
+            const otherNationality = document.getElementById('other-nationality-field').querySelector('input').value.trim();
+            const cpdRequest = document.getElementById('cpd').value;
+            const nationalId = document.getElementById('nationalId').value.trim();
+            const licenseNo = document.getElementById('licenseNo').value.trim();
 
+            if (!/^[\u0600-\u06FF\s]+$/.test(fullNameAr)) errors.push('الاسم بالعربية يجب أن يحتوي على أحرف عربية فقط.');
+            if (!/^[a-zA-Z\s]+$/.test(fullNameEn)) errors.push('The English name should contain only English letters.');
+            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) errors.push('يرجى إدخال بريد إلكتروني صحيح.');
+            if (!countries.some(c => `${c.name} (${c.code})` === countryCodeInput.trim())) errors.push('يرجى اختيار رمز بلد صحيح من القائمة.');
+            if (!/^[1-9][0-9]{6,14}$/.test(phoneNumber)) errors.push('يرجى إدخال رقم هاتف محلي صحيح (بدون الصفر في البداية، مثل 79xxxxxxx).');
+            if (!nationality) errors.push('يرجى اختيار الجنسية.');
+            if (nationality === 'أخرى' && !otherNationality) errors.push('يرجى تحديد بلد الجنسية.');
+            if (cpdRequest === 'نعم' && (!nationalId || !licenseNo)) errors.push('عند طلب شهادة CPD، يجب إدخال الرقم الوطني ورقم المزاولة.');
+            if (!terms) errors.push('يجب الموافقة على التعهد والإقرار لإكمال التسجيل.');
 
-             if (!/^[\u0600-\u06FF\s]+$/.test(fullNameAr)) {
-                 alert('الاسم بالعربية يجب أن يحتوي على أحرف عربية فقط.');
-                 document.getElementById('fullNameAr').focus();
-                 return false;
-             }
-
-             if (!/^[a-zA-Z\s]+$/.test(fullNameEn)) {
-                 alert('The English name should contain only English letters.');
-                 document.getElementById('fullNameEn').focus();
-                 return false;
-             }
-
-             if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-                 alert('يرجى إدخال بريد إلكتروني صحيح.');
-                 document.getElementById('email').focus();
-                 return false;
-             }
-
-             if (!countries.some(c => `${c.name} (${c.code})` === countryCodeInput.trim() )) {
-                  alert('يرجى اختيار رمز بلد صحيح من القائمة.');
-                  document.getElementById('country-code-search').focus();
-                  return false;
-             }
-
-             if (!/^[1-9][0-9]{6,14}$/.test(phoneNumber)) {
-                 alert('يرجى إدخال رقم هاتف محلي صحيح (بدون الصفر في البداية، مثل 79xxxxxxx).');
-                 document.getElementById('phone-number').focus();
-                 return false;
-             }
-
-             if (!nationality) {
-                  alert('يرجى اختيار الجنسية.');
-                  document.getElementById('nationality').focus();
-                  return false;
-             }
-
-             if (nationality === 'أخرى' && !otherNationality) {
-                 alert('يرجى تحديد بلد الجنسية.');
-                 document.getElementById('other-nationality-field').querySelector('input').focus();
-                 return false;
-             }
-
-             if (cpdRequest === 'نعم' && (!nationalId || !licenseNo)) {
-                 alert('عند طلب شهادة CPD، يجب إدخال الرقم الوطني ورقم المزاولة.');
-                 if (!nationalId) document.getElementById('nationalId').focus();
-                 else document.getElementById('licenseNo').focus();
-                 return false;
-             }
-
-
-             if (!terms) {
-                 alert('يجب الموافقة على التعهد والإقرار لإكمال التسجيل.');
-                 document.getElementById('terms').focus();
-                 return false;
-             }
-
-             return true;
+            if (errors.length > 0) {
+                const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                document.getElementById('errorMessage').innerHTML = errors.join('<br>');
+                errorModal.show();
+                return false;
+            }
+            return true;
         }
 
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
-            if (!validateForm()) {
-                return;
-            }
+            if (!validateForm()) return;
 
             const form = e.target;
             const data = new FormData(form);
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzo7yp-5tMCXf-WFbfJjh3gnNHLXnO-2sDAGQF8ZVysn4sKUUTTVotZvK81SSJ6dkcp/exec';
+            // !!! تم تحديث الرابط هنا !!!
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwXxN0o8q7vb5DY6AZrZ4t5-hOG3w7bDgil9lbROC4CYJ71VpBO8USQVlPJcmNCOqb4/exec'; 
             const submitButton = form.querySelector('button[type="submit"]');
 
             const countryCode = document.getElementById('country-code-value').value;
-            let phoneNumber = document.getElementById('phone-number').value.trim();
+            const phoneNumber = document.getElementById('phone-number').value.trim();
             const fullPhoneNumber = countryCode + phoneNumber;
             data.set('WhatsApp', fullPhoneNumber);
             data.delete('CountryCode');
             data.delete('Phone Number');
 
-
             submitButton.disabled = true;
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري إرسال بياناتك...';
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> جاري الإرسال...';
 
             fetch(scriptURL, { method: 'POST', body: data })
             .then(response => {
-                console.log('Success!', response);
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(result => {
+                console.log('Success!', result);
                 const userEmail = document.getElementById('email').value;
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                document.getElementById('successMessage').textContent = `شكرًا لك على التسجيل في فعالية تدريبية ${currentCourse.name}. تم إرسال بريد إلكتروني تأكيدي إلى ${userEmail}.`;
+                successModal.show();
 
-                const successAlert = document.createElement('div');
-                successAlert.className = 'alert alert-success';
-                successAlert.setAttribute('role', 'status');
-                successAlert.innerHTML = `
-                    <h4 class="alert-heading"><i class="fas fa-check-circle"></i> تم إرسال بياناتك بنجاح!</h4>
-                    <p>شكرًا لك على التسجيل في فعالية تدريبية <strong>${currentCourse.name}</strong>.</p>
-                    <p class="mb-0"><strong>تم إرسال بريد إلكتروني تأكيدي إلى ${userEmail}.</strong> يرجى فحص صندوق الوارد والبريد المزعج (Spam) للحصول على تفاصيل التسجيل وطرق الدفع.</p>
-                `;
+                setTimeout(() => {
+                    document.getElementById('registration-section').style.display = 'none';
+                    document.getElementById('payment-section').style.display = 'block';
+                    window.scrollTo(0, 0);
+                }, 1500);
 
-                document.getElementById('registration-section').style.display = 'none';
-                const paymentSection = document.getElementById('payment-section');
-                paymentSection.style.display = 'block';
-                 paymentSection.insertBefore(successAlert, paymentSection.firstChild);
-                window.scrollTo(0, 0);
             })
             .catch(error => {
                 console.error('Fetch Error!', error.message);
                 submitButton.disabled = false;
                 submitButton.textContent = 'أرسل بياناتي واعرض طرق الدفع';
-                alert('حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى.');
+                const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                document.getElementById('errorMessage').textContent = 'حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى.';
+                errorModal.show();
             });
         });
 
